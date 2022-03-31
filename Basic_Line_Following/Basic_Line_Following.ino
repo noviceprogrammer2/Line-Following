@@ -57,7 +57,7 @@ void loop()
   if (left_sensor_value < 27 && right_sensor_value < 27 && middle_sensor_value < 27)
   {
     delay(2000); /* delays 2 seconds then checks statement again*/
-    if (left_sensor_value < 30 && right_sensor_value < 30 && middle_sensor_value < 30)
+    if (left_sensor_value < 27 && right_sensor_value < 27 && middle_sensor_value < 27)
     {
       stopArdumoto(MOTOR_B);
       stopArdumoto(MOTOR_A);
