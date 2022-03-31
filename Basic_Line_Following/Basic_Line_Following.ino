@@ -8,11 +8,13 @@ void Loop structure and setupIR function are both my creation
 // Initialize variables, 
 
 //sets IR variables equal to analog 4 and analog 5 
-int phototransA4 = A4;
-int phototransA5 = A5;
+int phototransA0 = A0; /* left sensor A0 */
+int phototransA1 =  A1; /* middle sensor A1 */
+int phototransA2 = A2; /* right sensor A2 */
 
-// creates left_sensor_value and right_sensor_value to be used in loop statement
+// creates left_sensor_value, middle_sensor_value, and right_sensor_value to be used in loop statement
 int left_sensor_value;
+int middle_sensor_value;
 int right_sensor_value; 
 
 
@@ -44,13 +46,24 @@ void setup()
 void loop()
 {
 
-  // sets left sensor and right sensor values equal to analog inputs from the phototrans variables (left sensor is in A4 slot, right sensro in A5)
-  left_sensor_value = analogRead(phototransA4);
-  right_sensor_value = analogRead(phototransA5);
+  // sets left sensor and right sensor values equal to analog inputs from the phototrans variables (left sensor is in A4 slot, right sensor in A5)
+  left_sensor_value = analogRead(phototransA0);
+  right_sensor_value = analogRead(phototransA1);
+  middle_sensor_value = analogRead(phototransA2);
 
 
 //Straightline code
 
+  if (left_sensor_value < 30 && right_sensor_value < 30 && middle_sensor_value < 30)
+  {
+    delay(2000); /* delays 2 seconds then checks statement again*/
+    if (left_sensor_value < 30 && right_sensor_value < 30 && middle_sensor_value < 30)
+    {
+      stopArdumoto(MOTOR_B);
+      stopArdumoto(MOTOR_A);
+      exit(0);
+      }
+    }
   if (left_sensor_value < 30 && right_sensor_value < 30)
   {
     driveArdumoto(MOTOR_B, FORWARD, 127.5);
@@ -118,8 +131,8 @@ void stopArdumoto(byte motor)
 void setupIR()
 {
 
-pinMode(phototransA4, INPUT);
-
-pinMode(phototransA5, INPUT);
+pinMode(phototransA0, INPUT);
+pinMode(phototransA1, INPUT);
+pinMode(phototransA2, INPUT);
 
 }
