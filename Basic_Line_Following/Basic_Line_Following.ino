@@ -54,23 +54,19 @@ void loop()
 
 //Straightline code
 
-  if (left_sensor_value < 27 && right_sensor_value < 27 && middle_sensor_value < 27)
-  {
-    delay(2000); /* delays 2 seconds then checks statement again*/
-    if (left_sensor_value < 27 && right_sensor_value < 27 && middle_sensor_value < 27)
-    {
-      stopArdumoto(MOTOR_B);
-      stopArdumoto(MOTOR_A);
-      exit(0);
-      }
-    }
   if (left_sensor_value < 27 && right_sensor_value < 27)
   {
     driveArdumoto(MOTOR_B, FORWARD, 127.5);
     driveArdumoto(MOTOR_A, FORWARD, 127.5);
-    delay(1000); //drives straight for a bit then delays 
-    stopArdumoto(MOTOR_B);
-    stopArdumoto(MOTOR_A);
+    if(middle_sensor_value > 40) //middle detects black
+    {
+     delay(1000); //delay 1 second till checking again
+    }  
+      if(middle_sensor_value> 40) //middle still sees black, stop robot
+      {
+        stopArdumoto(MOTOR_A);
+        stopArdumoto(MOTOR_B);
+      }
       
    }
 
@@ -79,8 +75,7 @@ void loop()
   if (right_sensor_value > 27 && left_sensor_value < 27)
   {
     driveArdumoto(MOTOR_B, FORWARD, 127.5);
-    delay(1000);
-    stopArdumoto(MOTOR_B);
+    driveArdumoto(MOTOR_A, FORWARD, 0 );
     }
    
 //Left detects black code 
@@ -88,8 +83,7 @@ void loop()
   if (left_sensor_value > 27 && right_sensor_value <27 )
    {
     driveArdumoto(MOTOR_A, FORWARD, 127.5);
-    delay (1000);
-    stopArdumoto(MOTOR_A);
+    driveArdumoto(MOTOR_B,FORWARD,0);
    }
 
 }
