@@ -1,0 +1,25 @@
+#include <Servo.h> //initializes servo library
+Servo Rservo;  // create servo object to control the right servo
+Servo Lservo;  // create servo object to control the left servo
+
+void setup_servos()
+{
+ 
+  Rservo.attach(9);  // attaches the right servo on pin 9 to the servo object
+  Lservo.attach(10); // attaches the left servo on pin 10 to the servo object
+
+  Rservo.write(0); //set initial positions
+  Lservo.write(180);
+}
+
+void straight_face()
+{
+  Rservo.write(60);
+  Lservo.write(120);  
+}
+
+void smile_face()
+{
+    Rservo.write(0);
+    Lservo.write(180);
+}
