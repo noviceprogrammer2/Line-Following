@@ -63,10 +63,11 @@ void loop()
       exit(0);
       }
     } */
-  if (left_sensor_value < 28 && right_sensor_value < 31 && middle_sensor_value >28)
+
+  if(left_sensor_value <75 && right_sensor_value <75 && middle_sensor_value >75)
   {
-    driveArdumoto(MOTOR_B, FORWARD, 127.5);
-    driveArdumoto(MOTOR_A, FORWARD, 127.5);
+    driveArdumoto(MOTOR_B, FORWARD, 100);
+    driveArdumoto(MOTOR_A, FORWARD, 100);
     //delay(1000); //drives straight for a bit then delays 
     //stopArdumoto(MOTOR_B);
     //stopArdumoto(MOTOR_A);
@@ -75,18 +76,20 @@ void loop()
 
 // Right detects black code 
   
-  if (right_sensor_value > 33 && left_sensor_value < 30)
+  if (right_sensor_value > 75) // && left_sensor_value < 75)
   {
-    driveArdumoto(MOTOR_A, FORWARD, 0);
-    driveArdumoto(MOTOR_B, FORWARD, 127.5);
+    driveArdumoto(MOTOR_A, FORWARD, 100);
+    driveArdumoto(MOTOR_B, FORWARD, 0);
+    
     }
    
 //Left detects black code 
   
-  if (left_sensor_value > 30 && right_sensor_value <33 )
+  if (left_sensor_value > 75) //&& right_sensor_value <75 )
    {
-    driveArdumoto(MOTOR_A, FORWARD, 127.5);
-    driveArdumoto(MOTOR_B, FORWARD, 0);
+    driveArdumoto(MOTOR_A, FORWARD, 0);
+    driveArdumoto(MOTOR_B, FORWARD, 100);
+    
    }
 
 }
