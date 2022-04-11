@@ -53,30 +53,16 @@ void loop()
 
 //Straightline code
 
-  /*if (left_sensor_value < 27 && right_sensor_value < 27 && middle_sensor_value < 27)
-  {
-    delay(2000); 
-    if (left_sensor_value < 27 && right_sensor_value < 27 && middle_sensor_value < 27)
-    {
-      stopArdumoto(MOTOR_B);
-      stopArdumoto(MOTOR_A);
-      exit(0);
-      }
-    } */
-
   if(left_sensor_value <75 && right_sensor_value <75 && middle_sensor_value >75)
   {
     driveArdumoto(MOTOR_B, FORWARD, 150);
     driveArdumoto(MOTOR_A, FORWARD, 150);
-    //delay(1000); //drives straight for a bit then delays 
-    //stopArdumoto(MOTOR_B);
-    //stopArdumoto(MOTOR_A);
       
    }
 
 // Right detects black code 
   
-  if (right_sensor_value > 75) // && left_sensor_value < 75)
+  if (right_sensor_value > 75)
   {
     driveArdumoto(MOTOR_A, FORWARD, 150);
     driveArdumoto(MOTOR_B, FORWARD, 0);
@@ -85,7 +71,7 @@ void loop()
    
 //Left detects black code 
   
-  if (left_sensor_value > 75) //&& right_sensor_value <75 )
+  if (left_sensor_value > 75)
    {
     driveArdumoto(MOTOR_A, FORWARD, 0);
     driveArdumoto(MOTOR_B, FORWARD, 150);
