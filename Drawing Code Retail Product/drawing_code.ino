@@ -1,6 +1,7 @@
+
 /* 
 
-Code for team 4-7 Line-Following Robot
+Code for team 4-7 Line-Following Robot Mr. Line Retail Product 
 
 Group includes Aidan Guenther, Peter Bast, and Brian Simons 
 
@@ -12,17 +13,18 @@ stopping, straight, left, and right.
 
 Robot starts track with a straight face, travels the line, stops, and then smiles  
 
-Through the use of two timer variables, robot is able to continously monitor for tracks that end and stop accordingly 
+Mr. Line stops at finish line when all three sensors see black 
 
 */
 
-// Initialize variables 
+// Initialize variables, 
 
 //servo initialization
 #include <Servo.h>
-Servo Rservo;  
-Servo Lservo;  
+Servo Rservo;  // create servo object to control the right servo
+Servo Lservo;  // create servo object to control the left servo
 
+//sets IR variables equal to analog 4 and analog 5 
 int phototransA0 = A0; /* left sensor A0 */
 int phototransA1 =  A1; /* middle sensor A1 */
 int phototransA2 = A2; /* right sensor A2 */
@@ -32,8 +34,6 @@ int left_sensor_value;
 int middle_sensor_value;
 int right_sensor_value; 
 
-unsigned long time1;
-unsigned long time2;
 
 // Clockwise and counter-clockwise definitions for motors.
 
@@ -55,20 +55,18 @@ unsigned long time2;
 
 void setup()
 {
-  
   setupArdumoto(); // Sets motor pins as outputs
   setupIR(); //setups pins for IR as inputs 
 
-  Serial.begin(9600);
-  
-  // setting servos to appropriate pins
-  Rservo.attach(10);   
-  Lservo.attach(9); 
-  
-  // assigning servos to default straight face position 
-  Rservo.write(0); 
-  Lservo.write(180);
+    Serial.begin(9600);
 
+    // setting servos to appropriate pins
+    Rservo.attach(10);  // attaches the right servo on pin 13 to the servo object
+    Lservo.attach(9); // attaches the left servo on pin 12 to the servo object
+
+    // assigning servos to default straight face position 
+    Rservo.write(0); 
+    Lservo.write(180);
 }
 
 void loop()
@@ -78,51 +76,46 @@ void loop()
   left_sensor_value = analogRead(phototransA0);
   middle_sensor_value = analogRead(phototransA1);
   right_sensor_value = analogRead(phototransA2);
-    
-  //initialiazes timer that runs while robot is navigating track
-  time1 = millis();
+ 
 
-  //straight line navigation  
-  if(left_sensor_value <120 && right_sensor_value <120 && middle_sensor_value >120)  ]
+
+// Straightline code
+
+  if(left_sensor_value <100 && right_sensor_value <100 && middle_sensor_value >100)
   {
-    time2 = millis();
-    driveArdumoto(MOTOR_B, FORWARD, 250);
-    driveArdumoto(MOTOR_A, FORWARD, 250);
-        
-  }
+    driveArdumoto(MOTOR_B, FORWARD, 120);
+    driveArdumoto(MOTOR_A, FORWARD, 120);
+      
+   }
 
   // Right sensor detects black, robot turns right
-  if(right_sensor_value > 150){
-    time2 = millis();
-    driveArdumoto(MOTOR_A, FORWARD, 250);
-    driveArdumoto(MOTOR_B, REVERSE, 100 );
-    }
   
+  if (right_sensor_value > 150)
+  {
+    driveArdumoto(MOTOR_A, FORWARD, 120);
+    driveArdumoto(MOTOR_B, REVERSE, 60);
+    
+    }
+   
   // Left sensor detects black, robot turns left
+  
   if (left_sensor_value > 150)
    {
-    time2 = millis();
-    driveArdumoto(MOTOR_A, REVERSE, 100);
-    driveArdumoto(MOTOR_B, FORWARD, 250);
+    driveArdumoto(MOTOR_A, REVERSE, 60);
+    driveArdumoto(MOTOR_B, FORWARD, 120);
     
    }
-  
-  //Automated robot stopping for the robot 
-  if(left_sensor_value <200 && right_sensor_value <200 && middle_sensor_value <200) //initial condition if all three sensors see white
-  { 
-    if (time1 - time2 >= 300) //if the difference between the timer for the track and the timer for the last action (turn, or traveling straight) is greater than value
-    {
-      //stops both motors 
-      stopArdumoto(MOTOR_A);
-      stopArdumoto(MOTOR_B);
-      
-      //sets servos to smile once robot is stopped 
-      Rservo.write(60);               
-      Lservo.write(120);
-      //exits the program 
-      exit(0);
-    }
-  } 
+
+    //Stopping code 
+    //all three sensors see black at finish line 
+  if(left_sensor_value >200 && right_sensor_value >200 && middle_sensor_value >200)
+  {
+    stopArdumoto(MOTOR_A);
+    stopArdumoto(MOTOR_B);
+    Rservo.write(60);              // tell servo to go from smiling to straight
+    Lservo.write(120);
+    delay(2000);
+   }
 }
 
 // driveArdumoto drives 'motor' in 'dir' direction at 'spd' speed
@@ -142,13 +135,13 @@ void driveArdumoto(byte motor, byte dir, byte spd)
 // setupArdumoto initialize all pins
 void setupArdumoto()
 {
-  // All pins are set as outputs 
+  // All pins should be setup as outputs:
   pinMode(PWMA, OUTPUT);
   pinMode(PWMB, OUTPUT);
   pinMode(DIRA, OUTPUT);
   pinMode(DIRB, OUTPUT);
 
-  // all pins are initially set to low 
+  // Initialize all pins as low:
   digitalWrite(PWMA, LOW);
   digitalWrite(PWMB, LOW);
   digitalWrite(DIRA, LOW);
@@ -165,8 +158,8 @@ void stopArdumoto(byte motor)
 void setupIR()
 {
 
-  pinMode(phototransA0, INPUT);
-  pinMode(phototransA1, INPUT);
-  pinMode(phototransA2, INPUT);
+pinMode(phototransA0, INPUT);
+pinMode(phototransA1, INPUT);
+pinMode(phototransA2, INPUT);
 
 }
